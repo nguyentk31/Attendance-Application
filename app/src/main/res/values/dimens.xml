@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name = "iconSize1">50dp</dimen>
+    <dimen name = "textSize1">20dp</dimen>
+    <dimen name = "margin1">15dp</dimen>
+</resources>
