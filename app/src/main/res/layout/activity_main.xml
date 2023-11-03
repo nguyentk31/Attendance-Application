@@ -30,7 +30,7 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="@string/email"
-        android:inputType="textEmailAddress"
+        android:inputType="number"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
