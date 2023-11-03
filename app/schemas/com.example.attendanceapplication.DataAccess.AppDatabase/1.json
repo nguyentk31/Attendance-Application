@@ -1,0 +1,108 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "7ebdc7f470a23cd605e1f036d94f0dca",
+    "entities": [
+      {
+        "tableName": "NhanVien",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaNhanVien` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `MatKhau` TEXT, `TenNhanVien` TEXT NOT NULL, `NgaySinh` INTEGER, `GioiTinh` INTEGER NOT NULL, `NgayBatDauLamViec` INTEGER, `NgayNghiViec` INTEGER, `MaVaiTro` INTEGER NOT NULL, `MaPhongBan` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "MaNhanVien",
+            "columnName": "MaNhanVien",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "MatKhau",
+            "columnName": "MatKhau",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "TenNhanVien",
+            "columnName": "TenNhanVien",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "NgaySinh",
+            "columnName": "NgaySinh",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "GioiTinh",
+            "columnName": "GioiTinh",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "NgayBatDauLamViec",
+            "columnName": "NgayBatDauLamViec",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "NgayNghiViec",
+            "columnName": "NgayNghiViec",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MaVaiTro",
+            "columnName": "MaVaiTro",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "MaPhongBan",
+            "columnName": "MaPhongBan",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "MaNhanVien"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "PhongBan",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaPhongBan` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `TenPhongBan` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "MaPhongBan",
+            "columnName": "MaPhongBan",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TenPhongBan",
+            "columnName": "TenPhongBan",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "MaPhongBan"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ebdc7f470a23cd605e1f036d94f0dca')"
+    ]
+  }
+}
