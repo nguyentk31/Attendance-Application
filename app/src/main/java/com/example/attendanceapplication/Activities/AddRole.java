@@ -1,4 +1,4 @@
-package com.example.attendanceapplication;
+package com.example.attendanceapplication.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.attendanceapplication.DataAccess.AppDatabase;
 import com.example.attendanceapplication.Models.RoleModel;
+import com.example.attendanceapplication.R;
 
 public class AddRole extends AppCompatActivity {
     private EditText roleName ;
