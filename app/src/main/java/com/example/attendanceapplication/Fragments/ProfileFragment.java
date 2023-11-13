@@ -9,9 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
-import com.example.attendanceapplication.MainActivity;
+import com.example.attendanceapplication.Activities.MainActivity;
 import com.example.attendanceapplication.R;
-import com.example.attendanceapplication.SecondActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {

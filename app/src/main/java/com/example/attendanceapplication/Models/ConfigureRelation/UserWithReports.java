@@ -4,7 +4,6 @@ import androidx.room.Embedded;
 import androidx.room.Relation;
 
 import com.example.attendanceapplication.Models.ReportModel;
-import com.example.attendanceapplication.Models.RoleModel;
 import com.example.attendanceapplication.Models.UserModel;
 
 import java.util.List;

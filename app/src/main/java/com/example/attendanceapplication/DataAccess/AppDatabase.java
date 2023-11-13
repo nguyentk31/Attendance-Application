@@ -1,13 +1,9 @@
 package com.example.attendanceapplication.DataAccess;
 
-import android.content.Context;
-import android.os.AsyncTask;
-
 import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.room.Room;
 import com.example.attendanceapplication.Converters.Converter;
 import com.example.attendanceapplication.Models.AcceptReport;
 import com.example.attendanceapplication.Models.ManagerModel;

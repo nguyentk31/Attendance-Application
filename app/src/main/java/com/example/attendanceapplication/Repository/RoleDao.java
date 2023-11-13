@@ -6,8 +6,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.attendanceapplication.Models.RoleModel;
-import com.example.attendanceapplication.Models.RoomModel;
-import com.example.attendanceapplication.Models.UserModel;
 
 import java.util.List;
 

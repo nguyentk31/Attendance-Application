@@ -1,4 +1,4 @@
-package com.example.attendanceapplication;
+package com.example.attendanceapplication.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -10,10 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.attendanceapplication.Activities.AddRole;
-import com.example.attendanceapplication.Activities.SecondActivity;
 import com.example.attendanceapplication.DataAccess.AppDatabase;
 import com.example.attendanceapplication.Models.UserModel;
+import com.example.attendanceapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {

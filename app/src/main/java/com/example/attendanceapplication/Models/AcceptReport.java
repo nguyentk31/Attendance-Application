@@ -2,7 +2,6 @@ package com.example.attendanceapplication.Models;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.PrimaryKey;
 
 @Entity(tableName = "DuyetBaoCao" ,primaryKeys = {"MaBaoCao" , "MaQuanLy" , "MaTrangThai"},
         foreignKeys = {

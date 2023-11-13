@@ -5,8 +5,6 @@ import androidx.room.Relation;
 
 import com.example.attendanceapplication.Models.ManagerModel;
 import com.example.attendanceapplication.Models.RoleModel;
-import com.example.attendanceapplication.Models.RoomModel;
-import com.example.attendanceapplication.Models.UserModel;
 
 import java.util.List;
 
