@@ -17,7 +17,7 @@ import com.example.attendanceapplication.Repository.RoleDao;
 import com.example.attendanceapplication.Repository.RoomDao;
 import com.example.attendanceapplication.Repository.UserDao;
 
-@Database(entities = {UserModel.class , RoomModel.class , TimeKeepingModel.class , StatusModel.class, RoleModel.class, ReportModel.class, ManagerModel.class, AcceptReport.class}, version = 4 , autoMigrations = {
+@Database(entities = {UserModel.class , RoomModel.class , TimeKeepingModel.class , StatusModel.class, RoleModel.class, ReportModel.class, ManagerModel.class, AcceptReport.class}, version = 6 , autoMigrations = {
         @AutoMigration(from = 1 , to=2),
         @AutoMigration(from = 2 , to=3),
         @AutoMigration(from = 3 , to=4),

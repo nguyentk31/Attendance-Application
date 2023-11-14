@@ -2,6 +2,8 @@ package com.example.attendanceapplication.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,12 +23,19 @@ public class MainActivity extends AppCompatActivity {
     private Button btnLogin;
     private EditText etUserID;
     private EditText etPassword;
-
+    static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("INSERT INTO VaiTro VALUES(2,'Admin')");
+            database.execSQL("INSERT INTO PhongBan VALUES(2,'Phòng Giám Đốc')");
+            database.execSQL("INSERT INTO NhanVien VALUES(2,'nguyen1234' , 'Tran Khoi Nguyen',1,2,2)");
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db = Room.databaseBuilder(this, AppDatabase.class, "manage_employee").fallbackToDestructiveMigration().allowMainThreadQueries().build();
+        db = Room.databaseBuilder(this, AppDatabase.class, "manage_employee").addMigrations(MIGRATION_5_6).fallbackToDestructiveMigration().allowMainThreadQueries().build();
 
         btnLogin = findViewById(R.id.btnLogin);
         etUserID = findViewById(R.id.etEmail);
@@ -51,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
-    private void Logging() {
+    public void Logging() {
         String UserID = etUserID.getText().toString();
         String matkhau = etPassword.getText().toString().trim();
 
@@ -61,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             UserModel userModel = db.userDao().Login(Integer.parseInt(UserID),matkhau);
             if (userModel == null) {
-                startActivity(new Intent(MainActivity.this, AddRole.class));
+                Toast.makeText(MainActivity.this, "UserID and Password cannot be empty.", Toast.LENGTH_SHORT).show();
             }
             else {
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));

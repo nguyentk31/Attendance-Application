@@ -17,11 +17,7 @@ public class UserModel {
     public String MatKhau;
     @NonNull
     public String TenNhanVien;
-
-    public Date NgaySinh;
     public boolean GioiTinh;
-    public Date NgayBatDauLamViec;
-    public Date NgayNghiViec;
     public int MaVaiTro;
     public int MaPhongBan;
 }

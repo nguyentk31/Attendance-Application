@@ -1,0 +1,371 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "10bffa3df663eee4634924b657120ff7",
+    "entities": [
+      {
+        "tableName": "NhanVien",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaNhanVien` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `MatKhau` TEXT, `TenNhanVien` TEXT NOT NULL, `GioiTinh` INTEGER NOT NULL, `MaVaiTro` INTEGER NOT NULL, `MaPhongBan` INTEGER NOT NULL, FOREIGN KEY(`MaVaiTro`) REFERENCES `VaiTro`(`MaVaiTro`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`MaPhongBan`) REFERENCES `PhongBan`(`MaPhongBan`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "MaNhanVien",
+            "columnName": "MaNhanVien",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "MatKhau",
+            "columnName": "MatKhau",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "TenNhanVien",
+            "columnName": "TenNhanVien",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "GioiTinh",
+            "columnName": "GioiTinh",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "MaVaiTro",
+            "columnName": "MaVaiTro",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "MaPhongBan",
+            "columnName": "MaPhongBan",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "MaNhanVien"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "VaiTro",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "MaVaiTro"
+            ],
+            "referencedColumns": [
+              "MaVaiTro"
+            ]
+          },
+          {
+            "table": "PhongBan",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "MaPhongBan"
+            ],
+            "referencedColumns": [
+              "MaPhongBan"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "PhongBan",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaPhongBan` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `TenPhongBan` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "MaPhongBan",
+            "columnName": "MaPhongBan",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TenPhongBan",
+            "columnName": "TenPhongBan",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "MaPhongBan"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ChamCong",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaChamCong` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ThoiGianVao` INTEGER, `ThoiGianRa` INTEGER, `ThoiGianNghi` INTEGER, `SoGioLam` REAL)",
+        "fields": [
+          {
+            "fieldPath": "MaChamCong",
+            "columnName": "MaChamCong",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ThoiGianVao",
+            "columnName": "ThoiGianVao",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ThoiGianRa",
+            "columnName": "ThoiGianRa",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ThoiGianNghi",
+            "columnName": "ThoiGianNghi",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SoGioLam",
+            "columnName": "SoGioLam",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "MaChamCong"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "TrangThai",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaTrangThai` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `TenTrangThai` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "MaTrangThai",
+            "columnName": "MaTrangThai",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TenTrangThai",
+            "columnName": "TenTrangThai",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "MaTrangThai"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "VaiTro",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaVaiTro` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `TenVaiTro` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "MaVaiTro",
+            "columnName": "MaVaiTro",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TenVaiTro",
+            "columnName": "TenVaiTro",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "MaVaiTro"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "BaoCao",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaBaoCao` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `TieuDeBaoCao` TEXT, `NoiDungBaoCao` TEXT, `MaNhanVien` INTEGER NOT NULL, FOREIGN KEY(`MaNhanVien`) REFERENCES `NhanVien`(`MaNhanVien`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "MaBaoCao",
+            "columnName": "MaBaoCao",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TieuDeBaoCao",
+            "columnName": "TieuDeBaoCao",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "NoiDungBaoCao",
+            "columnName": "NoiDungBaoCao",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MaNhanVien",
+            "columnName": "MaNhanVien",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "MaBaoCao"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "NhanVien",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "MaNhanVien"
+            ],
+            "referencedColumns": [
+              "MaNhanVien"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "QuanLy",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaQuanLy` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `TenQuanLy` TEXT, `MaVaiTro` INTEGER NOT NULL, FOREIGN KEY(`MaVaiTro`) REFERENCES `VaiTro`(`MaVaiTro`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "MaQuanLy",
+            "columnName": "MaQuanLy",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TenQuanLy",
+            "columnName": "TenQuanLy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MaVaiTro",
+            "columnName": "MaVaiTro",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "MaQuanLy"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "VaiTro",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "MaVaiTro"
+            ],
+            "referencedColumns": [
+              "MaVaiTro"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "DuyetBaoCao",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`MaBaoCao` INTEGER NOT NULL, `MaQuanLy` INTEGER NOT NULL, `MaTrangThai` INTEGER NOT NULL, PRIMARY KEY(`MaBaoCao`, `MaQuanLy`, `MaTrangThai`), FOREIGN KEY(`MaBaoCao`) REFERENCES `BaoCao`(`MaBaoCao`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`MaQuanLy`) REFERENCES `QuanLy`(`MaQuanLy`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`MaTrangThai`) REFERENCES `TrangThai`(`MaTrangThai`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "MaBaoCao",
+            "columnName": "MaBaoCao",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "MaQuanLy",
+            "columnName": "MaQuanLy",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "MaTrangThai",
+            "columnName": "MaTrangThai",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "MaBaoCao",
+            "MaQuanLy",
+            "MaTrangThai"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "BaoCao",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "MaBaoCao"
+            ],
+            "referencedColumns": [
+              "MaBaoCao"
+            ]
+          },
+          {
+            "table": "QuanLy",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "MaQuanLy"
+            ],
+            "referencedColumns": [
+              "MaQuanLy"
+            ]
+          },
+          {
+            "table": "TrangThai",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "MaTrangThai"
+            ],
+            "referencedColumns": [
+              "MaTrangThai"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '10bffa3df663eee4634924b657120ff7')"
+    ]
+  }
+}
