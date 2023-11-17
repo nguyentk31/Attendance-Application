@@ -4,5 +4,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="optionColor">#FFFFFFFF</color>
     <color name = "purple">#6750A4</color>
-
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="leave">#E2202B</color>
+    <color name="overtime">#FA5C24</color>
+    <color name="schedule">#8CC24D</color>
+    <color name="salary">#e7f6f9</color>
+    <color name="attendance">#efe62f</color>
+    <color name="yellow">#FFBC1A</color>
+    <color name="yellow2">#FFE505</color>
 </resources>
