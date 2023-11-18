@@ -30,7 +30,7 @@ public class SecondActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         toolbar = findViewById(R.id.toolbar);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new AttendanceFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new HomeFragment()).commit();
         toolbar.setTitle(getString(R.string.title_home));
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

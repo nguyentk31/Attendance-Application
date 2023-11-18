@@ -44,7 +44,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 // Check Email
                 String email = etEmail.getText().toString().trim();
 
-                // Kiểm tra email và pw đã được nhập hay chưa
+                // check null email, password
                 if (email.equals("")) {
                     etEmail.setError("Email is required!");
                     etEmail.requestFocus();
@@ -68,6 +68,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Toast.makeText(ForgotPasswordActivity.this, "Please check your inbox.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ForgotPasswordActivity.this, MainActivity.class);
+                    // clear activity stack
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
