@@ -1,5 +1,6 @@
 package com.example.attendanceapplication.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private final static String TAG = "ForgotPasswordActivity";
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -39,6 +39,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/teacher_bottom_navigation" />
 
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
