@@ -14,12 +14,16 @@ import com.example.attendanceapplication.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SecondActivity extends AppCompatActivity {
 
     FrameLayout frameLayout;
     BottomNavigationView bottomNavigationView;
-    MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,24 +32,19 @@ public class SecondActivity extends AppCompatActivity {
 
         frameLayout = findViewById(R.id.fragment);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        toolbar = findViewById(R.id.toolbar);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new HomeFragment()).commit();
-        toolbar.setTitle(getString(R.string.title_home));
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.home_menu) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new HomeFragment()).commit();
-                    toolbar.setTitle(getString(R.string.title_home));
                     return true;
                 } else if (item.getItemId() == R.id.attendance_menu) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new AttendanceFragment()).commit();
-                    toolbar.setTitle(getString(R.string.title_attendance));
                     return true;
                 } else if (item.getItemId() == R.id.profile_menu) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new ProfileFragment()).commit();
-                    toolbar.setTitle(getString(R.string.title_profile));
                     return true;
                 }
                 return false;

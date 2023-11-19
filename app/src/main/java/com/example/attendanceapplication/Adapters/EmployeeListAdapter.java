@@ -42,8 +42,8 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
             employeeID.setText(employee.getID());
         if(employee.getPosition()!= null)
             employeePosition.setText(employee.getPosition());
-        if(employee.getAvatar()!= 0)
-            employeeAvatar.setImageResource(employee.getAvatar());
+//        if(employee.getAvatar()!= 0)
+//            employeeAvatar.setImageResource(employee.getAvatar());
         return convertView;
     }
 

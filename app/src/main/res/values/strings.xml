@@ -9,4 +9,9 @@
     <string name="title_home">Home</string>
     <string name="title_attendance">Attendance</string>
     <string name="title_profile">Profile</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="send">SEND</string>
+    <string name="account_info">Account Info</string>
+    <string name="position">Position</string>
+    <string name="department">Department</string>
 </resources>

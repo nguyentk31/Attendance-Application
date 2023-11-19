@@ -1,24 +1,23 @@
 package com.example.attendanceapplication.Model;
 
 public class Employee {
-    private String ID;
-    private String Name;
-    private String Position;
-    private int Avatar;
-    Employee(String ID,String Name,String Position, int Avatar){
-        this.ID = ID;
-        this.Name = Name;
-        this.Position = Position;
-        this.Avatar = Avatar;
+    private String id;
+    private String name;
+    private String department;
+    private String position;
+    private String avatarURL;
+
+    Employee(){}
+    Employee(String id, String name, String department, String position, String avatarURL){
+        this.id = id;
+        this.name = name;
+        this.department = department;
+        this.position = position;
+        this.avatarURL = avatarURL;
     }
-    public String getName(){
-        return Name;
-    }
-    public String getID(){
-        return ID;
-    }
-    public String getPosition(){
-        return Position;
-    }
-    public int getAvatar(){ return Avatar;}
+    public String getID(){return id;}
+    public String getName(){return name;}
+    public String getDepartment(){return department;}
+    public String getPosition(){return position;}
+    public String getavatarURL() {return avatarURL;}
 }
