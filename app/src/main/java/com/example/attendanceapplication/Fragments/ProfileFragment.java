@@ -10,11 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
-import com.bumptech.glide.Glide;
 import com.example.attendanceapplication.Activities.MainActivity;
 import com.example.attendanceapplication.Model.Employee;
 import com.example.attendanceapplication.R;
@@ -24,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
 
@@ -34,6 +32,8 @@ public class ProfileFragment extends Fragment {
     private TextView tvDepartment;
     private TextView tvPosition;
     private Button btnLogout;
+
+    private Employee e;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,18 +47,15 @@ public class ProfileFragment extends Fragment {
         tvPosition = view.findViewById(R.id.tvPosition);
         btnLogout = view.findViewById(R.id.btnLogout);
 
-
         DatabaseReference profileRef = FirebaseDatabase.getInstance("https://attendance-application-42e9d-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("Users/" + FirebaseAuth.getInstance().getUid());
         profileRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Employee myProfile = snapshot.getValue(Employee.class);
+                e = new Employee(myProfile);
 
-                Glide.with(getView().getContext())
-                        .load(myProfile.getavatarURL())
-                        .centerCrop()
-                        .into(ivAvatar);
+                Picasso.get().load(myProfile.getAvatarURL()).into(ivAvatar);
                 tvName.setText(myProfile.getName());
                 tvID.setText("#id:" + myProfile.getID());
                 tvDepartment.setText(myProfile.getDepartment());
@@ -70,6 +67,8 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
+        int x  = 0;
 
 
 

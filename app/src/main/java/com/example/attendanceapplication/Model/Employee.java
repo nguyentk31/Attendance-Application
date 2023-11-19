@@ -8,6 +8,13 @@ public class Employee {
     private String avatarURL;
 
     Employee(){}
+    public Employee(Employee x){
+        this.id = x.id;
+        this.name = x.name;
+        this.department = x.department;
+        this.position = x.position;
+        this.avatarURL = x.avatarURL;
+    }
     Employee(String id, String name, String department, String position, String avatarURL){
         this.id = id;
         this.name = name;
@@ -19,5 +26,5 @@ public class Employee {
     public String getName(){return name;}
     public String getDepartment(){return department;}
     public String getPosition(){return position;}
-    public String getavatarURL() {return avatarURL;}
+    public String getAvatarURL() {return avatarURL;}
 }
