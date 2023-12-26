@@ -14,4 +14,6 @@
     <string name="account_info">Account Info</string>
     <string name="position">Position</string>
     <string name="department">Department</string>
+    <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="reset">RESET</string>
 </resources>
