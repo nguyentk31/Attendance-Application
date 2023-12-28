@@ -3,6 +3,7 @@ package com.example.attendanceapplication.Activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ public class SecondActivity extends AppCompatActivity {
 
     FrameLayout frameLayout;
     BottomNavigationView bottomNavigationView;
+    LinearLayout membersLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

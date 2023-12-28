@@ -30,19 +30,23 @@ import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
     private Button btnLogout, btnResetPW;
-
     private ProfileFragmentUI update;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        btnResetPW = view.findViewById(R.id.btnGotoChangePassword);
         btnLogout = view.findViewById(R.id.btnLogout);
-        btnResetPW = view.findViewById(R.id.btnResetPW);
+//        btnResetPW = view.findViewById(R.id.btnResetPW);
         update = new ProfileFragmentUI(getContext(), view);
         update.execute();
-
+        btnResetPW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ResetPasswordActivity.class));
+            }
+        });
         // Đăng xuất
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,12 +59,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        btnResetPW.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ResetPasswordActivity.class));
-            }
-        });
+//        btnResetPW.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getActivity(), ResetPasswordActivity.class));
+//            }
+//        });
 
         return view;
     }
