@@ -28,12 +28,13 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_salary" />
+                app:srcCompat="@drawable/ic_home" />
 
             <TextView
+                android:id="@+id/goToDashboard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Salary Info"
+                android:text="Dashboard"
                 android:textAlignment="center"
                 android:background="@null"
                 android:textSize="@dimen/textSize1" />
@@ -73,44 +74,18 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_overtime" />
+                app:srcCompat="@drawable/ic_account" />
 
             <TextView
+                android:id="@+id/goToListMember"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Work overtime"
+                android:text="Members"
                 android:textAlignment="center"
                 android:textSize="@dimen/textSize1" />
 
         </LinearLayout>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin1"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_leave" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Take leave"
-                android:textAlignment="center"
-                android:textSize="@dimen/textSize1" />
-
-        </LinearLayout>
 
     </LinearLayout>
 
