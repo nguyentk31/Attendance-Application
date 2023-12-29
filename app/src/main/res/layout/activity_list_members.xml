@@ -9,23 +9,16 @@
         android:id="@+id/btnAddNhanVien"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thêm Nhân Viên"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:text="Thêm Nhân Viên" />
 
-    <ScrollView
+    <ListView
+        android:id="@+id/lvNhanVienList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/btnAddNhanVien"
-        android:layout_marginTop="16dp">
-
-        <LinearLayout
-            android:id="@+id/llNhanVienList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnAddNhanVien"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>
