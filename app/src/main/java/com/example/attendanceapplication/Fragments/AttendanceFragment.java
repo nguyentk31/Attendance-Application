@@ -1,17 +1,22 @@
 package com.example.attendanceapplication.Fragments;
-import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.DatePicker;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.attendanceapplication.R;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
+import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,58 +24,63 @@ import java.util.List;
 
 public class AttendanceFragment extends Fragment {
 
-    private CalendarView simpleCalendarView;
-    private List<Long> selectedDates;
+    private MaterialCalendarView calendarView;
+    private List<CalendarDay> highlightedDays = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_attendance, container, false);
+        calendarView = view.findViewById(R.id.calendarView);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2023, Calendar.DECEMBER, 25);
+        highlightedDays.add(CalendarDay.from(calendar));
 
-        simpleCalendarView = view.findViewById(R.id.calendarView);
-        Button selectDatesButton = view.findViewById(R.id.selectDatesButton);
-
-        selectedDates = new ArrayList<>();
-
-        simpleCalendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-            Calendar selectedDate = Calendar.getInstance();
-            selectedDate.set(year, month, dayOfMonth);
-            long milliseconds = selectedDate.getTimeInMillis();
-
-            if (!selectedDates.contains(milliseconds)) {
-                selectedDates.add(milliseconds);
+        calendar.set(2023, Calendar.DECEMBER, 31);
+        highlightedDays.add(CalendarDay.from(calendar));
+        EventDecorator eventDecorator = new EventDecorator(Color.RED, highlightedDays);
+        calendarView.addDecorator(eventDecorator);
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(
+                    @NonNull MaterialCalendarView widget,
+                    @NonNull CalendarDay date,
+                    boolean selected
+            ) {
             }
         });
-
-        selectDatesButton.setOnClickListener(v -> showDatePickerDialog());
-
+        calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
+            @Override
+            public void onMonthChanged(
+                    @NonNull MaterialCalendarView widget,
+                    @NonNull CalendarDay date
+            ) {
+            }
+        });
         return view;
     }
 
-    private void showDatePickerDialog() {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+    private class EventDecorator implements DayViewDecorator {
+        private final int color;
+        private final Drawable highlightDrawable;
+        private final List<CalendarDay> dates;
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                requireContext(),
-                (view, year1, monthOfYear, dayOfMonth) -> {
-                    Calendar selectedDate = Calendar.getInstance();
-                    selectedDate.set(year1, monthOfYear, dayOfMonth);
-                    long milliseconds = selectedDate.getTimeInMillis();
+        public EventDecorator(int color, List<CalendarDay> dates) {
+            this.color = color;
+            this.highlightDrawable = ContextCompat.getDrawable(getActivity(), R.color.md_theme_light_primary);
+            this.dates = dates;
+        }
 
-                    if (!selectedDates.contains(milliseconds)) {
-                        selectedDates.add(milliseconds);
-                    }
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return dates.contains(day);
+        }
 
-                    // Handle selectedDates list as needed
-                    // For example, display selected dates or perform further actions
-
-                    Toast.makeText(requireContext(), "Selected Dates: " + selectedDates, Toast.LENGTH_SHORT).show();
-                },
-                year, month, day);
-
-        datePickerDialog.getDatePicker().setCalendarViewShown(false);
-        datePickerDialog.getDatePicker().setSpinnersShown(true);
-        datePickerDialog.show();
+        @Override
+        public void decorate(com.prolificinteractive.materialcalendarview.DayViewFacade view) {
+            view.addSpan(new DotSpan(5, color));
+            view.setBackgroundDrawable(highlightDrawable);
+        }
     }
+
 }
