@@ -12,9 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.attendanceapplication.ListMembers;
 import com.example.attendanceapplication.R;
-import com.example.attendanceapplication.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkIfUserIsLogged() {
         if (mAuth.getCurrentUser() != null) {
-            User.getInstance();
             startActivity(new Intent(MainActivity.this, SecondActivity.class));
             finish();
         }
@@ -89,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    User.getInstance();
                     Toast.makeText(MainActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, SecondActivity.class));
                     finish();

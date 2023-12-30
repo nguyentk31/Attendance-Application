@@ -38,7 +38,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         btnResetPW = view.findViewById(R.id.btnGotoChangePassword);
         btnLogout = view.findViewById(R.id.btnLogout);
-//        btnResetPW = view.findViewById(R.id.btnResetPW);
+
         update = new ProfileFragmentUI(getContext(), view);
         update.execute();
         btnResetPW.setOnClickListener(new View.OnClickListener() {
@@ -58,13 +58,6 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getActivity(), "Logout Successful.", Toast.LENGTH_SHORT).show();
             }
         });
-
-//        btnResetPW.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(getActivity(), ResetPasswordActivity.class));
-//            }
-//        });
 
         return view;
     }

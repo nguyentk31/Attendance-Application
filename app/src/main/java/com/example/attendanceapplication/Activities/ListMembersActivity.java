@@ -1,5 +1,6 @@
-package com.example.attendanceapplication;
+package com.example.attendanceapplication.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -9,51 +10,41 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.attendanceapplication.Model.Employee;
+import com.example.attendanceapplication.R;
+import com.example.attendanceapplication.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 
-import com.example.attendanceapplication.Adapters.NhanVienListAdapter;
-import com.example.attendanceapplication.Model.NhanVien;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ListMembers extends AppCompatActivity {
+public class ListMembersActivity extends AppCompatActivity {
 
     private ListView lvNhanVienList;
-    private ArrayList<NhanVien> nhanVienList;
-    private ArrayAdapter<NhanVien> nvAdapter;
+    private User me;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_members);
 
+        me = User.getInstance();
         lvNhanVienList = findViewById(R.id.lvNhanVienList);
-        nhanVienList = new ArrayList<NhanVien>();
-        nvAdapter = new NhanVienListAdapter(this,
-                R.layout.list_item_nhanvien,
-                nhanVienList);
 
-        lvNhanVienList.setAdapter(nvAdapter);
-        nhanVienList.add(new NhanVien("nhanvien1@gmail.com", "password1"));
-        nhanVienList.add(new NhanVien("nhanvien2@gmail.com", "password2"));
-        nhanVienList.add(new NhanVien("nhanvien3@gmail.com", "password3"));
-        nvAdapter.notifyDataSetChanged();
-        //updateUI();
+        lvNhanVienList.setAdapter(me.getMySubordinatesAdapter(this));
 
         Button btnAddNhanVien = findViewById(R.id.btnAddNhanVien);
         lvNhanVienList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                NhanVien selectedNhanVien = nhanVienList.get(position);
-                showNhanVienDetailDialog(selectedNhanVien, position);
-                //Intent intent = new Intent(ListMembers.this, UpdateMemberActivity.class);
-                //intent.putExtra("selectedNhanVien", selectedNhanVien);
-                //startActivityForResult(intent, 1);
+                Employee selectedStaff = me.getMySubordinates().get(position);
+                showNhanVienDetailDialog(selectedStaff, position);
             }
         });
         btnAddNhanVien.setOnClickListener(new View.OnClickListener() {
@@ -64,30 +55,7 @@ public class ListMembers extends AppCompatActivity {
         });
     }
 
-//    private void updateUI() {
-//        lvNhanVienList.removeAllViews();
-//
-//        for (final NhanVien nhanVien : nhanVienList) {
-//            View itemView = getLayoutInflater().inflate(R.layout.list_item_nhanvien, null);
-//
-//            TextView textViewEmail = itemView.findViewById(R.id.textViewEmail);
-//            TextView textViewPassword = itemView.findViewById(R.id.textViewPassword);
-//
-//            textViewEmail.setText("Email: " + nhanVien.getEmail());
-//            textViewPassword.setText("Password: " + nhanVien.getPassword());
-//
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    showNhanVienDetailDialog(nhanVien);
-//                }
-//            });
-//
-//            lvNhanVienList.addView(itemView);
-//        }
-//    }
-
-    private void showNhanVienDetailDialog(final NhanVien nhanVien, final int position) {
+    private void showNhanVienDetailDialog(final Employee staff, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Thông Tin Nhân Viên");
 
@@ -97,8 +65,8 @@ public class ListMembers extends AppCompatActivity {
 
         final EditText etEmail = dialogView.findViewById(R.id.etEmail);
         final EditText etPassword = dialogView.findViewById(R.id.etPassword);
-        etEmail.setText(nhanVien.getEmail());
-        etPassword.setText(nhanVien.getPassword());
+        etEmail.setText(staff.getName());
+        etPassword.setText(staff.getGender().name());
 
         etEmail.setEnabled(true);
         etPassword.setEnabled(true);
@@ -109,10 +77,15 @@ public class ListMembers extends AppCompatActivity {
                 String updatedEmail = etEmail.getText().toString();
                 String updatedPassword = etPassword.getText().toString();
 
-                nhanVien.setEmail(updatedEmail);
-                nhanVien.setPassword(updatedPassword);
 
-                nvAdapter.notifyDataSetChanged();
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/name", "nguyen");
+                childUpdates.put("/gender", Employee.Gender.Male);
+                childUpdates.put("/birthday", "2003-01-31");
+                childUpdates.put("/position", Employee.Position.Manager);
+                childUpdates.put("/status", Employee.Status.Working);
+
+                me.getMyDBRef().child("Users/"+staff.getAuthId()).updateChildren(childUpdates);
             }
         });
 
@@ -126,6 +99,7 @@ public class ListMembers extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
     private void showAddNhanVienDialog() {
         // Tạo một AlertDialog.Builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -146,9 +120,23 @@ public class ListMembers extends AppCompatActivity {
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
 
-                nhanVienList.add(new NhanVien(email, password));
-                nvAdapter.notifyDataSetChanged();
-                //updateUI();
+
+                Map<String, Object> createRequest = new HashMap<>();
+                createRequest.put("name", "nguyen");
+                createRequest.put("gender", Employee.Gender.Male);
+                createRequest.put("birthday", "2003-01-31");
+                createRequest.put("position", Employee.Position.Manager);
+                createRequest.put("status", Employee.Status.Working);
+
+                me.getMyDBRef().child("Request").push().getRef().setValue(createRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                            Toast.makeText(ListMembersActivity.this, "Request successful.", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(ListMembersActivity.this, "Request failed.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -161,5 +149,11 @@ public class ListMembers extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        me.resetMySubordinatesAdapter();
     }
 }

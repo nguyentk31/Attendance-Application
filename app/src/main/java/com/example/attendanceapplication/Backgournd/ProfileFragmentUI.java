@@ -13,7 +13,7 @@ import com.example.attendanceapplication.R;
 import com.example.attendanceapplication.User;
 import com.squareup.picasso.Picasso;
 
-public class ProfileFragmentUI extends AsyncTask<String, Employee, Void> {
+public class ProfileFragmentUI extends AsyncTask<String, Integer, Void> {
 
     private static final String TAG = "ProfileUI";
     private User user;
@@ -22,7 +22,6 @@ public class ProfileFragmentUI extends AsyncTask<String, Employee, Void> {
     private ImageView ivAvatar;
     private TextView tvName;
     private TextView tvID;
-    private TextView tvDepartment;
     private TextView tvPosition;
 
     public ProfileFragmentUI(Context context, View view) {
@@ -40,10 +39,17 @@ public class ProfileFragmentUI extends AsyncTask<String, Employee, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         if (preProfile != null) {
-            Picasso.get().load(preProfile.getAvatarURL()).into(ivAvatar);
             tvName.setText(preProfile.getName());
-            tvID.setText("#id:" + preProfile.getID());
-            tvPosition.setText(preProfile.getPosition());
+            tvID.setText("#id:" + preProfile.getId());
+            tvPosition.setText(preProfile.getPosition().name());
+            if (preProfile.getAvatarURL().equals("null")) {
+                if (preProfile.getGender() == Employee.Gender.Male)
+                    ivAvatar.setImageResource(R.drawable.avatar_male);
+                else
+                    ivAvatar.setImageResource(R.drawable.avatar_female);
+            } else {
+                Picasso.get().load(preProfile.getAvatarURL()).into(ivAvatar);
+            }
         }
     }
 
@@ -54,7 +60,7 @@ public class ProfileFragmentUI extends AsyncTask<String, Employee, Void> {
                 Employee x = user.getMyProfile();
                 if (x != preProfile) {
                     preProfile = x;
-                    publishProgress(x);
+                    publishProgress(0);
                 }
                 Thread.sleep(100);
             }
@@ -65,13 +71,20 @@ public class ProfileFragmentUI extends AsyncTask<String, Employee, Void> {
     }
 
     @Override
-    protected void onProgressUpdate(Employee... values) {
+    protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
 
-        tvName.setText(values[0].getName());
-        tvID.setText("#id:" + values[0].getID());
-        tvPosition.setText(values[0].getPosition());
-        Picasso.get().load(values[0].getAvatarURL()).into(ivAvatar);
+        tvName.setText(preProfile.getName());
+        tvID.setText("#id:" + preProfile.getId());
+        tvPosition.setText(preProfile.getPosition().name());
+        if (preProfile.getAvatarURL().equals("null")) {
+            if (preProfile.getGender() == Employee.Gender.Male)
+                ivAvatar.setImageResource(R.drawable.avatar_male);
+            else
+                ivAvatar.setImageResource(R.drawable.avatar_female);
+        } else {
+            Picasso.get().load(preProfile.getAvatarURL()).into(ivAvatar);
+        }
     }
 
 }

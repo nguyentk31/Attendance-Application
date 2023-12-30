@@ -19,39 +19,17 @@
         android:weightSum="3">
 
         <LinearLayout
+            android:id="@+id/ft_schedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin1"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_home" />
-
-            <TextView
-                android:id="@+id/goToDashboard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Dashboard"
-                android:textAlignment="center"
-                android:background="@null"
-                android:textSize="@dimen/textSize1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin1"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
                 app:srcCompat="@drawable/ic_schedule" />
 
             <TextView
@@ -65,11 +43,37 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ft_dashboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin1"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_home" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="Dashboard"
+                android:textAlignment="center"
+                android:textSize="@dimen/textSize1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ft_members"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin1"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -77,7 +81,6 @@
                 app:srcCompat="@drawable/ic_account" />
 
             <TextView
-                android:id="@+id/goToListMember"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Members"

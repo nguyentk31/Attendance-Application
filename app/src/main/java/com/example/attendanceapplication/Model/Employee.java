@@ -1,66 +1,132 @@
 package com.example.attendanceapplication.Model;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashMap;
 
-public class Employee implements Serializable {
+public class Employee {
+
+    public enum Gender {
+        Male,
+        Female
+    }
+    public enum Status {
+        Working,
+        Fired
+    }
+    public enum Position {
+        Manager,
+        Staff
+    }
+
     private String id;
     private String name;
-    private String position;
+    private Gender gender;
+    private Position position;
+    private Status status;
     private String avatarURL;
-    private float baseSalary;
-    private ArrayList<LocalDateTime> attendances;
+    private LocalDate birthday;
+    private String authId;
+    private String tagId;
+    private HashMap<LocalDate, LocalTime> attendances;
 
+    public Employee(){
+        attendances = null;
+    }
 
-    public Employee(){}
     public Employee(Employee x){
-        this.id = x.id;
-        this.name = x.name;
-        this.position = x.position;
-        this.avatarURL = x.avatarURL;
-        this.baseSalary = x.baseSalary;
-        this.attendances = new ArrayList<>();
+        this.id = x.getId();
+        this.name = x.getName();
+        this.gender = x.getGender();
+        this.position = x.getPosition();
+        this.status = x.getStatus();
+        this.avatarURL = x.getAvatarURL();
+        this.birthday = x.getBirthday();
+        this.authId = x.getAuthId();
+        this.tagId = x.getTagId();
+        if (this.attendances == null) this.attendances = new HashMap<>();
+        else this.attendances.clear();
+        x.getAttendances().forEach((d, t) -> this.attendances.put(d, t));
     }
-    Employee(String id, String name, String position, String avatarURL, float baseSalary){
-        this.id = id;
-        this.name = name;
-        this.position = position;
-        this.avatarURL = avatarURL;
-        this.baseSalary = baseSalary;
-        this.attendances = new ArrayList<>();
+
+    public String getId() {
+        return id;
     }
-    public String getID(){return id;}
-    public String getName(){return name;}
-    public String getPosition(){return position;}
-    public String getAvatarURL() {return avatarURL;}
-    public float getBaseSalary() {return baseSalary;}
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = Gender.values()[gender];
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = Position.values()[position];
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = Status.values()[status];
+    }
+
+    public String getAvatarURL() {
+        return avatarURL;
     }
 
     public void setAvatarURL(String avatarURL) {
         this.avatarURL = avatarURL;
     }
-
-    public void setBaseSalary(float baseSalary) {
-        this.baseSalary = baseSalary;
+    public LocalDate getBirthday() {
+        return birthday;
     }
 
-    public ArrayList<LocalDateTime> getAttendances() {
+    public void setBirthday(String birthDay) {
+        this.birthday = LocalDate.parse(birthDay);
+    }
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String fbAuthId) {
+        this.authId = fbAuthId;
+    }
+
+    public String getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
+    }
+
+    public HashMap<LocalDate, LocalTime> getAttendances() {
         return attendances;
     }
 
-    public void setAttendances(ArrayList<LocalDateTime> attendances) {
-        this.attendances = attendances;
+    public void setAttendances(HashMap<String, String> attendances) {
+        if (this.attendances == null) this.attendances = new HashMap<>();
+        else this.attendances.clear();
+        attendances.forEach((d, t) -> this.attendances.put(LocalDate.parse(d), LocalTime.parse(t)));
     }
 }

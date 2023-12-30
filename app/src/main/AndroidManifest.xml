@@ -16,16 +16,17 @@
         android:theme="@style/Theme.AttendanceApplication"
         tools:targetApi="31">
         <activity
-            android:name=".Dashboard"
+            android:name=".Activities.ScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".ListMembers"
+            android:name=".Activities.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ListMembersActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.ResetPasswordActivity"
-            android:exported="false"
-            android:label="@string/title_activity_reset_password"
-            android:theme="@style/Theme.AttendanceApplication" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.ForgotPasswordActivity"
             android:exported="false" />

@@ -1,11 +1,14 @@
 package com.example.attendanceapplication;
 
+import android.content.Context;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
+import com.example.attendanceapplication.Adapters.EmployeeListAdapter;
 import com.example.attendanceapplication.Model.Employee;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,30 +22,27 @@ import java.util.ArrayList;
 public class User {
 
     private static User instance = null;
-    private static String dbURL;
+    private static DatabaseReference myDBRef;
     private static final String TAG = "MYDB";
 
-    private static final String Manager = "Manager";
     private static String myUid;
     private static Employee myProfile = null;
     private static ArrayList<Employee> mySubordinates = null;
+    private static ArrayAdapter<Employee> mySubordinatesAdapter = null;
 
     private User() {
-        dbURL = "https://attendance-application-42e9d-default-rtdb.asia-southeast1.firebasedatabase.app/";
+        String dbURL = "https://attendance-application-42e9d-default-rtdb.asia-southeast1.firebasedatabase.app/";
         this.myUid = FirebaseAuth.getInstance().getUid();
 
-        DatabaseReference myDBRef = FirebaseDatabase.getInstance(dbURL).getReference();
+        myDBRef = FirebaseDatabase.getInstance(dbURL).getReference();
 
         myDBRef.child("Users/" + this.myUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (myProfile == null) myProfile = new Employee();
-                Employee x = snapshot.getValue(Employee.class);
-                myProfile.setId(x.getID());
-                myProfile.setName(x.getName());
-                myProfile.setPosition(x.getPosition());
-                myProfile.setBaseSalary(x.getBaseSalary());
-                myProfile.setAvatarURL(x.getAvatarURL());
+                myProfile = snapshot.getValue(Employee.class);
+                if (myProfile.getPosition() == Employee.Position.Manager)
+                    setMySubordinates();
             }
 
             @Override
@@ -50,20 +50,24 @@ public class User {
                 Log.e(TAG, error.getMessage());
             }
         });
+    }
 
-        myDBRef.child("Attendances/" + this.myUid).addValueEventListener(new ValueEventListener() {
+    private void setMySubordinates() {
+        if (mySubordinates != null) return;
+
+        mySubordinates = new ArrayList<>();
+        myDBRef.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (myProfile == null) myProfile = new Employee();
-                ArrayList<LocalDateTime> attendances = new ArrayList<>();
+                mySubordinates.clear();
                 for (DataSnapshot snap : snapshot.getChildren()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        attendances.add(LocalDateTime.parse(snap.getKey() + 'T' + snap.getValue()));
-                    }
+                    Employee x = snap.getValue(Employee.class);
+                    if (x.getPosition() == Employee.Position.Staff && x.getStatus() == Employee.Status.Working)
+                        mySubordinates.add(x);
                 }
-                myProfile.setAttendances(attendances);
+                if (mySubordinatesAdapter != null)
+                    mySubordinatesAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e(TAG, error.getMessage());
@@ -86,5 +90,26 @@ public class User {
 
     public Employee getMyProfile() {
         return myProfile;
+    }
+
+    public ArrayList<Employee> getMySubordinates() {
+        return mySubordinates;
+    }
+
+//    public void setMySubordinatesAdapter(Context context) {
+//        mySubordinatesAdapter = new EmployeeListAdapter(context, R.layout.list_item_nhanvien, mySubordinates);
+//    }
+
+    public ArrayAdapter<Employee> getMySubordinatesAdapter(Context context) {
+        mySubordinatesAdapter = new EmployeeListAdapter(context, R.layout.list_item_nhanvien, mySubordinates);
+        return mySubordinatesAdapter;
+    }
+
+    public void resetMySubordinatesAdapter() {
+        mySubordinatesAdapter = null;
+    }
+
+    public DatabaseReference getMyDBRef() {
+        return myDBRef;
     }
 }
