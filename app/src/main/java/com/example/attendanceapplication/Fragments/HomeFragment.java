@@ -14,10 +14,12 @@ import com.example.attendanceapplication.Backgournd.HomeFragmentUI;
 import com.example.attendanceapplication.Activities.DashboardActivity;
 import com.example.attendanceapplication.Activities.ListMembersActivity;
 import com.example.attendanceapplication.R;
+import com.example.attendanceapplication.User;
 
 public class HomeFragment extends Fragment {
     private LinearLayout ft_schedule, ft_dashboard, ft_members;
     private HomeFragmentUI update;
+    private User me;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // inflating the layout for this fragment
@@ -29,6 +31,7 @@ public class HomeFragment extends Fragment {
 
         update = new HomeFragmentUI(getContext(), view);
         update.execute();
+
 
         ft_schedule.setOnClickListener(new View.OnClickListener() {
             @Override

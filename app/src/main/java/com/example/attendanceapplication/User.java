@@ -1,10 +1,14 @@
 package com.example.attendanceapplication;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -16,6 +20,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.squareup.picasso.Picasso;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -25,11 +34,13 @@ public class User {
     private static DatabaseReference myDBRef;
     private static final String TAG = "MYDB";
 
+    private static Context context;
     private static String myUid;
     private static Employee myProfile = null;
+    private static View myProfileView = null;
     private static ArrayList<Employee> mySubordinates = null;
     private static ArrayAdapter<Employee> mySubordinatesAdapter = null;
-
+    private static MaterialCalendarView calendarView;
     private User() {
         String dbURL = "https://attendance-application-42e9d-default-rtdb.asia-southeast1.firebasedatabase.app/";
         this.myUid = FirebaseAuth.getInstance().getUid();
@@ -39,10 +50,36 @@ public class User {
         myDBRef.child("Users/" + this.myUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (myProfile == null) myProfile = new Employee();
                 myProfile = snapshot.getValue(Employee.class);
                 if (myProfile.getPosition() == Employee.Position.Manager)
                     setMySubordinates();
+
+                if (myProfileView != null) {
+                    ImageView ivAvatar = myProfileView.findViewById(R.id.ivAvatar);
+                    TextView tvName = myProfileView.findViewById(R.id.tvName);
+                    TextView tvID = myProfileView.findViewById(R.id.tvID);
+                    TextView tvPosition = myProfileView.findViewById(R.id.tvPosition);
+
+                    tvName.setText(myProfile.getName());
+                    tvID.setText("#id:" + myProfile.getId());
+                    tvPosition.setText(myProfile.getPosition().name());
+                    if (myProfile.getAvatarURL().equals("null")) {
+                        if (myProfile.getGender() == Employee.Gender.Male)
+                            ivAvatar.setImageResource(R.drawable.avatar_male);
+                        else
+                            ivAvatar.setImageResource(R.drawable.avatar_female);
+                    } else {
+                        Picasso.get().load(myProfile.getAvatarURL()).into(ivAvatar);
+                    }
+                } else if (calendarView != null) {
+                    ArrayList<CalendarDay> highlightedDays = new ArrayList<>();
+                    for (LocalDate x : myProfile.getAttendances().keySet()) {
+                        CalendarDay i = new CalendarDay(x.getYear(), x.getMonthValue()-1, x.getDayOfMonth());
+                        highlightedDays.add(i);
+                    }
+                    EventDecorator eventDecorator = new EventDecorator(Color.RED, context, highlightedDays);
+                    calendarView.addDecorator(eventDecorator);
+                }
             }
 
             @Override
@@ -111,5 +148,48 @@ public class User {
 
     public DatabaseReference getMyDBRef() {
         return myDBRef;
+    }
+
+    public void setCalendarView(Context context, MaterialCalendarView materialCalendarView) {
+        this.context = context;
+        calendarView = materialCalendarView;
+        ArrayList<CalendarDay> highlightedDays = new ArrayList<>();
+        for (LocalDate x : myProfile.getAttendances().keySet()) {
+            CalendarDay i = new CalendarDay(x.getYear(), x.getMonthValue()-1, x.getDayOfMonth());
+            highlightedDays.add(i);
+        }
+        EventDecorator eventDecorator = new EventDecorator(Color.RED, this.context, highlightedDays);
+        calendarView.addDecorator(eventDecorator);
+    }
+
+    public void resetCalendarView() {
+        this.context = null;
+        calendarView = null;
+    }
+
+    public void setMyProfileView(View view) {
+        this.myProfileView = view;
+        if (myProfile != null) {
+            ImageView ivAvatar = view.findViewById(R.id.ivAvatar);
+            TextView tvName = view.findViewById(R.id.tvName);
+            TextView tvID = view.findViewById(R.id.tvID);
+            TextView tvPosition = view.findViewById(R.id.tvPosition);
+
+            tvName.setText(myProfile.getName());
+            tvID.setText("#id:" + myProfile.getId());
+            tvPosition.setText(myProfile.getPosition().name());
+            if (myProfile.getAvatarURL().equals("null")) {
+                if (myProfile.getGender() == Employee.Gender.Male)
+                    ivAvatar.setImageResource(R.drawable.avatar_male);
+                else
+                    ivAvatar.setImageResource(R.drawable.avatar_female);
+            } else {
+                Picasso.get().load(myProfile.getAvatarURL()).into(ivAvatar);
+            }
+        }
+    }
+
+    public void resetMyProfileView() {
+        this.myProfileView = null;
     }
 }

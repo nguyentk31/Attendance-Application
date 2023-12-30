@@ -2,9 +2,7 @@ package com.example.attendanceapplication.Activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.attendanceapplication.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;

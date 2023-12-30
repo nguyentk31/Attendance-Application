@@ -2,7 +2,6 @@ package com.example.attendanceapplication.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,14 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.example.attendanceapplication.Model.Employee;
 import com.example.attendanceapplication.R;
 import com.example.attendanceapplication.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-
 import java.util.HashMap;
 import java.util.Map;
 
