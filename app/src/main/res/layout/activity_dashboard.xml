@@ -71,7 +71,79 @@
             android:id="@+id/idBarChart"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_marginTop="200dp" />
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/cardEmployeesToday"
+            />
+        <LinearLayout
+            android:id="@+id/btnChangeDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/idBarChart"
+            android:weightSum="2"
+            android:layout_marginTop="15dp"
+
+            >
+            <Button
+                android:id="@+id/btnPrevious"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-7"
+                android:layout_weight="1"
+                />
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_below="@+id/btnChangeDay"
+
+            >
+
+            <TextView
+                android:id="@+id/txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Employees"
+                android:textSize = "20dp"
+                android:textStyle="bold">
+
+            </TextView>
+
+
+            <TableRow android:background="#51B435" android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Email" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Name" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Age" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Gender" />
+            </TableRow>
+        </TableLayout>
+
     </RelativeLayout>
 
 
