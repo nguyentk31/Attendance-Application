@@ -28,6 +28,9 @@ public class Employee {
     private LocalDate birthday;
     private String authId;
     private String tagId;
+
+
+    //private String phone;
     private HashMap<LocalDate, LocalTime> attendances;
 
     public Employee(){
@@ -44,6 +47,7 @@ public class Employee {
         this.birthday = x.getBirthday();
         this.authId = x.getAuthId();
         this.tagId = x.getTagId();
+        //this.phone = x.getPhone();
         if (this.attendances == null) this.attendances = new HashMap<>();
         else this.attendances.clear();
         x.getAttendances().forEach((d, t) -> this.attendances.put(d, t));
@@ -119,6 +123,9 @@ public class Employee {
     public void setTagId(String tagId) {
         this.tagId = tagId;
     }
+//    public String getPhone(){ return phone; }
+//
+//    public void setPhone(String phone) { this.phone = phone; }
 
     public HashMap<LocalDate, LocalTime> getAttendances() {
         return attendances;

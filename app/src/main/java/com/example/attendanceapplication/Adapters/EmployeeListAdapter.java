@@ -1,12 +1,12 @@
 package com.example.attendanceapplication.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -36,14 +36,26 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
         }
         Employee employee = getItem(position);
 
-        TextView textViewEmail = convertView.findViewById(R.id.textViewEmail);
-        TextView textViewPassword = convertView.findViewById(R.id.textViewPassword);
+        TextView textViewName = convertView.findViewById(R.id.textViewName);
+        TextView textViewPosition = convertView.findViewById(R.id.textViewPosition);
+        TextView textViewGender = convertView.findViewById(R.id.textViewGender);
         ImageView ivAvatar = convertView.findViewById(R.id.imageViewAvatar);
         if(employee.getName()!=null){
-            textViewEmail.setText(employee.getName());
+            textViewName.setText(employee.getName());
+        }
+        if(employee.getPosition()!=null){
+            if(employee.getPosition() == Employee.Position.Manager){
+                textViewPosition.setText("Manager");
+            }else{
+                textViewPosition.setText("Staff");
+            }
         }
         if(employee.getGender()!=null){
-            textViewPassword.setText(employee.getGender().name());
+            if(employee.getGender() == Employee.Gender.Male){
+                textViewGender.setText("Male");
+            }else{
+                textViewGender.setText("Female");
+            }
         }
         if (employee.getAvatarURL().equals("null")) {
             if (employee.getGender() == Employee.Gender.Male)
@@ -52,6 +64,10 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
                 ivAvatar.setImageResource(R.drawable.avatar_female);
         } else {
             Picasso.get().load(employee.getAvatarURL()).into(ivAvatar);
+        }
+        if(employee.getStatus() == Employee.Status.Fired){
+            LinearLayout llParent = convertView.findViewById(R.id.llParent);
+            llParent.setBackgroundResource(R.color.md_theme_light_tertiaryContainer);
         }
         return convertView;
     }
