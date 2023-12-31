@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.example.attendanceapplication.Adapters.EmployeeListAdapter;
 import com.example.attendanceapplication.Model.Employee;
 import com.example.attendanceapplication.R;
 import com.example.attendanceapplication.User;
@@ -28,6 +31,7 @@ public class ListMembersActivity extends AppCompatActivity {
 
     private ListView lvNhanVienList;
     private User me;
+    private ArrayAdapter<Employee> myAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +40,8 @@ public class ListMembersActivity extends AppCompatActivity {
 
         me = User.getInstance();
         lvNhanVienList = findViewById(R.id.lvNhanVienList);
-        lvNhanVienList.setAdapter(me.getMySubordinatesAdapter(this));
+        myAdapter = me.getMySubordinatesAdapter(this);
+        lvNhanVienList.setAdapter(myAdapter);
 
         Button btnAddNhanVien = findViewById(R.id.btnAddNhanVien);
         lvNhanVienList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -45,6 +50,23 @@ public class ListMembersActivity extends AppCompatActivity {
                 Employee selectedStaff = me.getMySubordinates().get(position);
                 showNhanVienDetailDialog(selectedStaff, position);
             }
+        });
+        lvNhanVienList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Employee selectedStaff = me.getMySubordinates().get(i);
+                int status;
+                if(selectedStaff.getStatus() == Employee.Status.Working){
+                    status = Employee.Status.Fired.ordinal();
+                }else{
+                    status = Employee.Status.Working.ordinal();
+                }
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/status", status);
+                me.getMyDBRef().child("Users/"+selectedStaff.getAuthId()).updateChildren(childUpdates);
+                return false;
+            }
+
         });
         btnAddNhanVien.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +91,7 @@ public class ListMembersActivity extends AppCompatActivity {
         final RadioGroup rdoGroGender = dialogView.findViewById(R.id.rdoGroGender);
         final RadioGroup rdoGroPosition = dialogView.findViewById(R.id.rdoGroPosition);
         final EditText etEmail = dialogView.findViewById(R.id.etEmail);
-
+        final EditText etPhone = dialogView.findViewById(R.id.etPhone);
         //final RadioGroup rdoGroStatus = dialogView.findViewById(R.id.rdoGroStatus);
         //final EditText etPassword = dialogView.findViewById(R.id.etPassword);
 
@@ -97,6 +119,8 @@ public class ListMembersActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 //tagID
                 String tagId = etTagID.getText().toString();
+                //phone
+                String phone = etPhone.getText().toString();
                 //name
                 String name = etName.getText().toString();
                 //gender
@@ -118,25 +142,14 @@ public class ListMembersActivity extends AppCompatActivity {
                 //email
                 String email = etEmail.getText().toString();
 
-
-                //password
-//                String password = etPassword.getText().toString();
-                //status
-//                Employee.Status status;
-//                if(rdoGroStatus.getCheckedRadioButtonId() == R.id.rdoWorking){
-//                    status = Employee.Status.Working;
-//                }else{
-//                    status = Employee.Status.Fired;
-//                }
-
                 Map<String, Object> childUpdates = new HashMap<>();
                 childUpdates.put("/tagId", tagId);
                 childUpdates.put("/name", name);
+                childUpdates.put("/phone", phone);
                 childUpdates.put("/gender", gender);
                 childUpdates.put("/birthday", birthday);
                 childUpdates.put("/position", position);
                 //childUpdates.put("/status", status);
-
                 me.getMyDBRef().child("Users/"+person.getAuthId()).updateChildren(childUpdates);
             }
         });
@@ -169,7 +182,7 @@ public class ListMembersActivity extends AppCompatActivity {
         final RadioGroup rdoGroGender = dialogView.findViewById(R.id.rdoGroGender);
         final RadioGroup rdoGroPosition = dialogView.findViewById(R.id.rdoGroPosition);
         final EditText etEmail = dialogView.findViewById(R.id.etEmail);
-
+        final EditText etPhone = dialogView.findViewById(R.id.etPhone);
         //final EditText etPassword = dialogView.findViewById(R.id.etPassword);
         //final RadioGroup rdoGroStatus = dialogView.findViewById(R.id.rdoGroStatus);
         etID.setEnabled(false);
@@ -192,6 +205,7 @@ public class ListMembersActivity extends AppCompatActivity {
                 String name = etName.getText().toString();
                 //gender
                 Employee.Gender gender;
+
                 if(rdoGroGender.getCheckedRadioButtonId() == R.id.rdoMale){
                     gender = Employee.Gender.Male;
                 }else{
@@ -206,17 +220,6 @@ public class ListMembersActivity extends AppCompatActivity {
                 }else{
                     position = Employee.Position.Staff;
                 }
-                //status
-//                Employee.Status status;
-//                if(rdoGroStatus.getCheckedRadioButtonId() == R.id.rdoWorking){
-//                    status = Employee.Status.Working;
-//                }else{
-//                    status = Employee.Status.Fired;
-//                }
-
-                //password
-                //String password = etPassword.getText().toString();
-
 
                 Map<String, Object> createRequest = new HashMap<>();
                 createRequest.put("id", ID);

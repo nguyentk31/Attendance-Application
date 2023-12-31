@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -63,6 +64,10 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
                 ivAvatar.setImageResource(R.drawable.avatar_female);
         } else {
             Picasso.get().load(employee.getAvatarURL()).into(ivAvatar);
+        }
+        if(employee.getStatus() == Employee.Status.Fired){
+            LinearLayout llParent = convertView.findViewById(R.id.llParent);
+            llParent.setBackgroundResource(R.color.md_theme_light_tertiaryContainer);
         }
         return convertView;
     }
