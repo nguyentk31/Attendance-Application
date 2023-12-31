@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.attendanceapplication.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -38,7 +39,7 @@ public class DashboardActivity extends AppCompatActivity {
         getBarEntries();
 
         // creating a new bar data set.
-        barDataSet = new BarDataSet(barEntriesArrayList, "Salary/Month");
+        barDataSet = new BarDataSet(barEntriesArrayList, "Nhân viên đi làm theo từng tháng");
 
         // creating a new bar data and
         // passing our bar data set.
@@ -57,6 +58,8 @@ public class DashboardActivity extends AppCompatActivity {
         // setting text size
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(false);
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     }
 
     private void getBarEntries() {

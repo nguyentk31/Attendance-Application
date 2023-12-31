@@ -1,38 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- LinearLayout chứa Button A và Button B -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="top"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
 
-        >
+        <!-- Các CardView của bạn -->
 
-        <Button
-            android:id="@+id/buttonA"
-            android:layout_width="0dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardTotalEmployees"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button A" />
+            android:layout_margin="16dp">
 
-        <Button
-            android:id="@+id/buttonB"
-            android:layout_width="0dp"
+            <!-- Nội dung của CardView thống kê Tổng số nhân viên -->
+            <!-- ... -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Add TextView, ImageView, ProgressBar, etc. for your content -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tổng số nhân viên"
+                    android:textSize="18sp" />
+
+                <!-- Add other UI elements as needed -->
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardEmployeesToday"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button B" />
-    </LinearLayout>
+            android:layout_below="@+id/cardTotalEmployees"
+            android:layout_margin="16dp">
+
+            <!-- Nội dung của CardView thống kê Nhân viên đi làm trong hôm nay -->
+            <!-- ... -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Add TextView, ImageView, ProgressBar, etc. for your content -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nhân viên đi làm trong hôm nay"
+                    android:textSize="18sp" />
+
+                <!-- Add other UI elements as needed -->
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Thêm các CardView khác nếu cần -->
+
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/idBarChart"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_marginTop="100dp"
-            />
-</RelativeLayout>
+            android:layout_marginTop="200dp" />
+    </RelativeLayout>
+
+
+</ScrollView>
