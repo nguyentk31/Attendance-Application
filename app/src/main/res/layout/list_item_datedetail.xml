@@ -33,14 +33,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/lblName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name: "
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textViewName"
+                android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -51,14 +50,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/lblPosition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Position: "
+                android:text="ID: "
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textViewPosition"
+                android:id="@+id/tvID"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
         </LinearLayout>
@@ -70,23 +68,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/lblStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Status: "
+                android:text="Check in: "
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textViewStatus"
+                android:id="@+id/tvCheckin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
+
     </LinearLayout>
-    <ImageView
-        android:id="@+id/ivCall"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_call"/>
 
 </LinearLayout>

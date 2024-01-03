@@ -16,4 +16,7 @@
     <string name="department">Department</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="reset">RESET</string>
+    <string name="channel_name">change 1</string>
+    <string name="channel_description">channel 1 description</string>
+    <string name="project_id">project id</string>
 </resources>

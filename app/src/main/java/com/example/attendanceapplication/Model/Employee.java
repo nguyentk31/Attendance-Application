@@ -1,5 +1,6 @@
 package com.example.attendanceapplication.Model;
 
+import android.os.Build;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -7,50 +8,61 @@ import java.util.HashMap;
 public class Employee {
 
     public enum Gender {
-        Male,
-        Female
+        male,
+        female
     }
     public enum Status {
-        Working,
-        Fired
+        requesting,
+        work,
+        disabling,
+        disable,
+        recovering,
+        firing,
+        fired,
     }
     public enum Position {
-        Manager,
-        Staff
+        manager,
+        staff
     }
 
+    private String authid;
     private String id;
+    private String mail;
     private String name;
     private Gender gender;
+    private String birthday;
     private Position position;
+    private String tagid;
+    private String phone;
+    private String fcmtoken;
     private Status status;
     private String avatarURL;
-    private LocalDate birthday;
-    private String authId;
-    private String tagId;
-
-
-    //private String phone;
     private HashMap<LocalDate, LocalTime> attendances;
 
-    public Employee(){
-        attendances = null;
-    }
+    public Employee(){}
 
     public Employee(Employee x){
+        this.authid = x.getAuthid();
         this.id = x.getId();
+        this.mail = x.getMail();
         this.name = x.getName();
         this.gender = x.getGender();
+        this.birthday = x.getBirthday();
         this.position = x.getPosition();
+        this.tagid = x.getTagid();
+        this.phone = x.getPhone();
         this.status = x.getStatus();
         this.avatarURL = x.getAvatarURL();
-        this.birthday = x.getBirthday();
-        this.authId = x.getAuthId();
-        this.tagId = x.getTagId();
-        //this.phone = x.getPhone();
         if (this.attendances == null) this.attendances = new HashMap<>();
         else this.attendances.clear();
         x.getAttendances().forEach((d, t) -> this.attendances.put(d, t));
+    }
+
+    public String getAuthid() {
+        if (authid == null) {
+            authid = position.name()+id;
+        }
+        return authid;
     }
 
     public String getId() {
@@ -59,6 +71,13 @@ public class Employee {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getMail() {
+        if (mail == null) {
+            mail = id+"@nhom1.com";
+        }
+        return mail;
     }
 
     public String getName() {
@@ -73,24 +92,56 @@ public class Employee {
         return gender;
     }
 
-    public void setGender(int gender) {
-        this.gender = Gender.values()[gender];
+    public void setGender(String gender) {
+        this.gender = Gender.valueOf(gender);
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public Position getPosition() {
         return position;
     }
 
-    public void setPosition(int position) {
-        this.position = Position.values()[position];
+    public void setPosition(String position) {
+        this.position = Position.valueOf(position);
+    }
+
+    public String getTagid() {
+        return tagid;
+    }
+
+    public void setTagid(String tagid) {
+        this.tagid = tagid;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFcmtoken() {
+        return fcmtoken;
+    }
+
+    public void setFcmtoken(String fcmtoken) {
+        this.fcmtoken = fcmtoken;
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = Status.values()[status];
+    public void setStatus(String status) {
+        this.status = Status.valueOf(status);
     }
 
     public String getAvatarURL() {
@@ -100,32 +151,6 @@ public class Employee {
     public void setAvatarURL(String avatarURL) {
         this.avatarURL = avatarURL;
     }
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthDay) {
-        this.birthday = LocalDate.parse(birthDay);
-    }
-
-    public String getAuthId() {
-        return authId;
-    }
-
-    public void setAuthId(String fbAuthId) {
-        this.authId = fbAuthId;
-    }
-
-    public String getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(String tagId) {
-        this.tagId = tagId;
-    }
-//    public String getPhone(){ return phone; }
-//
-//    public void setPhone(String phone) { this.phone = phone; }
 
     public HashMap<LocalDate, LocalTime> getAttendances() {
         return attendances;
@@ -134,6 +159,8 @@ public class Employee {
     public void setAttendances(HashMap<String, String> attendances) {
         if (this.attendances == null) this.attendances = new HashMap<>();
         else this.attendances.clear();
-        attendances.forEach((d, t) -> this.attendances.put(LocalDate.parse(d), LocalTime.parse(t)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            attendances.forEach((d, t) -> this.attendances.put(LocalDate.parse(d), LocalTime.parse(t)));
+        }
     }
 }

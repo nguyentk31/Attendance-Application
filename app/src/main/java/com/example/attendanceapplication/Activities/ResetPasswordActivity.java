@@ -8,6 +8,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.attendanceapplication.R;
 import com.example.attendanceapplication.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,20 +26,31 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private EditText etOldPW, etNewPW, etConfirmNewPW;
     private Button btnReset;
     private ProgressBar progressBar;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
-
+        me = User.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
-        me = User.getInstance();
 
         etOldPW = findViewById(R.id.etOldPW);
         etNewPW = findViewById(R.id.etNewPW);
         etConfirmNewPW = findViewById(R.id.etConfirmPW);
         btnReset = findViewById(R.id.btnReset);
         progressBar = findViewById(R.id.progressBar);
+        toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,31 +82,29 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     private void Reseting(String oldPW, String newPW) {
-        AuthCredential credential = EmailAuthProvider
-                .getCredential(mAuth.getCurrentUser().getEmail(), oldPW);
+        AuthCredential credential = EmailAuthProvider.getCredential(mAuth.getCurrentUser().getEmail(), oldPW);
 
-        mAuth.getCurrentUser().reauthenticate(credential)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            mAuth.getCurrentUser().updatePassword(newPW).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(ResetPasswordActivity.this, "Updated password successfully!", Toast.LENGTH_LONG).show();
-                                        finish();
-                                    } else {
-                                        Toast.makeText(ResetPasswordActivity.this, "Password update failed!", Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                        } else {
-                            Toast.makeText(ResetPasswordActivity.this, "Old password is not correct!", Toast.LENGTH_LONG).show();
+        mAuth.getCurrentUser().reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    mAuth.getCurrentUser().updatePassword(newPW).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                me.makeToast("Updated password successfully!");
+                                finish();
+                            } else {
+                                me.makeToast("Password update failed!");
+                            }
                         }
-                        btnReset.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
+                    });
+                } else {
+                    me.makeToast("Old password is not correct!");
+                }
+                btnReset.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 }

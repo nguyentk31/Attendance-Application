@@ -1,18 +1,21 @@
 package com.example.attendanceapplication.Activities;
 
-import android.graphics.Color;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.ListView;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.appcompat.widget.Toolbar;
+import com.example.attendanceapplication.Adapters.DetailDayAdapter;
 import com.example.attendanceapplication.Model.Employee;
 import com.example.attendanceapplication.R;
+import com.example.attendanceapplication.User;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -20,151 +23,189 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
-
-import java.text.SimpleDateFormat;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity {
-
-    // variable for our bar chart
-    BarChart barChart;
-
-    // variable for our bar data.
-    BarData barData;
-
-    // variable for our bar data set.
-    BarDataSet barDataSet;
-
-    // array list for storing entries.
-    ArrayList barEntriesArrayList;
-    private Calendar calendar;
-    private Date currentDate , endDate;
-    private Date[] weekArray;
-    private void updateDateRangePrevious() {
-        for (int i = 0; i < 7; i++) {
-            weekArray[i] = calendar.getTime();
-            calendar.add(Calendar.DAY_OF_YEAR, -1);
-        }
-        getBarEntries(weekArray);
-
-    }
-    private void updateDateRangeNext() {
-        for (int i = 0; i < 7; i++) {
-            weekArray[i] = calendar.getTime();
-            calendar.add(Calendar.DAY_OF_YEAR, +1);
-        }
-        getBarEntries(weekArray);
-
-    }
+    private BarChart barChart;
+    private MaterialCalendarView calendarView;
+    private TextView tvTotal;
+    private LocalTime timeCheck;
+    private DetailDayAdapter adapter;
+    private Toolbar toolbar;
+    private User me;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        calendar = Calendar.getInstance();
-        weekArray = new Date[7];
-        for (int i = 0; i < 7; i++) {
-            weekArray[i] = calendar.getTime();
-            calendar.add(Calendar.DAY_OF_YEAR, -1);
+        me = User.getInstance(this);
+
+        barChart = findViewById(R.id.barChart);
+        calendarView = findViewById(R.id.calendar);
+        tvTotal = findViewById(R.id.tvTotal);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            timeCheck = LocalTime.of(7, 30);
         }
-        getBarEntries(weekArray);
 
-        barChart = findViewById(R.id.idBarChart);
+        tvTotal.setText("Total number of staffs: " + me.getMyStaffs().size());
 
-        Button previousButton = findViewById(R.id.btnPrevious);
-        previousButton.setOnClickListener(new View.OnClickListener() {
+        setBarChart();
+
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onClick(View v) {
-                updateDateRangePrevious();
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    LocalDate selectedDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDay());
+                    showDayDetail(selectedDate);
+                }
+                widget.setDateSelected(date, false);
             }
         });
 
-        Button nextButton = findViewById(R.id.btnNext);
-        nextButton.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void showDayDetail(LocalDate selectedDate) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.dialog_detail_day, null);
+        builder.setView(dialogView);
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        final ListView listView;
+        final Button btnOK;
+
+        listView = dialogView.findViewById(R.id.listview);
+        btnOK = dialogView.findViewById(R.id.btnOK);
+
+        ArrayList<Employee> list = new ArrayList<>();
+        for (Employee x : me.getMyStaffs()) {
+            if (x.getAttendances().containsKey(selectedDate)) {
+                list.add(x);
+            }
+        }
+
+        adapter = new DetailDayAdapter(this, R.layout.list_item_datedetail, list, selectedDate);
+        listView.setAdapter(adapter);
+
+        btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDateRangeNext();
+                alertDialog.cancel();
             }
         });
 
-        // creating a new bar data set.
-        barDataSet = new BarDataSet(barEntriesArrayList, "Nhân viên đi làm theo từng tháng");
+    }
 
-        // creating a new bar data and
-        // passing our bar data set.
-        barData = new BarData(barDataSet);
-
-        // below line is to set data
-        // to our bar chart.
-        barChart.setData(barData);
-
-        // adding color to our bar data set.
-        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-
-        // setting text color.
-        barDataSet.setValueTextColor(Color.BLACK);
-
-        // setting text size
-        barDataSet.setValueTextSize(16f);
+    private void setBarChart() {
         barChart.getDescription().setEnabled(false);
+        barChart.getAxisRight().setEnabled(false);
+        barChart.getAxisLeft().setEnabled(false);
+
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setAxisMinimum(0f);
+
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f); // set the granularity to 1 to display all labels
-        xAxis.setValueFormatter(new DayAxisValueFormatter()); // set custom formatter
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new DayAxisValueFormatter());
 
-        // setting up the Y-axis
-        YAxis yAxis = barChart.getAxisLeft(); // You can also use getAxisRight() for the right Y-axis
-        yAxis.setAxisMinimum(0f); // Set the minimum value for Y-axis
-        TableLayout tableLayout = findViewById(R.id.tableLayout);
+        BarData data = getBarData();
 
-// Create a list of player data (you can replace this with your dynamic data)
-        TableRow tableRow = new TableRow(this);
+        xAxis.setAxisMinimum(data.getXMin());
+        xAxis.setAxisMaximum(data.getXMax()+0.95f);
+        leftAxis.setAxisMaximum(data.getYMax()+5);
 
-        // Create TextViews for each column and set their properties
-        TextView rankTextView = createTextView("A");
-        TextView playerTextView = createTextView("B");
-        TextView teamTextView = createTextView("C");
-        TextView pointsTextView = createTextView("D");
-
-        // Add TextViews to the TableRow
-        tableRow.addView(rankTextView);
-        tableRow.addView(playerTextView);
-        tableRow.addView(teamTextView);
-        tableRow.addView(pointsTextView);
-
-        // Set background and padding for the TableRow
-        tableRow.setBackgroundColor(Color.parseColor("#F0F7F7"));
-        tableRow.setPadding(5, 5, 5, 5);
-
-        // Add the TableRow to the TableLayout
-        tableLayout.addView(tableRow);
+        barChart.setData(data);
+        barChart.invalidate();
     }
+
+    private BarData getBarData() {
+        int firstX = 0;
+        ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
+        ArrayList<BarEntry> entries2 = new ArrayList<BarEntry>();
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDate now = LocalDate.now();
+            LocalDate then = now.minusDays(6);
+            firstX = then.getDayOfWeek().getValue()-1;
+            for (int index = 0; index < 7; index++) {
+                int[] c = countStaffs(then.plusDays(index));
+                entries1.add(new BarEntry(firstX+index, c[0]));
+                entries2.add(new BarEntry(firstX+index, c[1]));
+            }
+        }
+
+        BarDataSet set1 = new BarDataSet(entries1, "Working Staffs");
+        set1.setColor(R.color.teal);
+        set1.setValueTextColor(R.color.black);
+        set1.setValueTextSize(10f);
+        set1.setValueFormatter(new DefaultValueFormatter(0));
+        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        BarDataSet set2 = new BarDataSet(entries2, "On time Staffs");
+        set2.setColor(R.color.green);
+        set2.setValueTextColor(R.color.black);
+        set2.setValueTextSize(10f);
+        set2.setValueFormatter(new DefaultValueFormatter(0));
+        set2.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        float groupSpace = 0.06f;
+        float barSpace = 0.02f; // x2 dataset
+        float barWidth = 0.45f; // x2 dataset
+        // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
+
+        BarData d = new BarData(set1, set2);
+        d.setBarWidth(barWidth);
+
+        // make this BarData object grouped
+        d.groupBars(firstX, groupSpace, barSpace); // start at x = 0
+
+        return d;
+    }
+
     private static class DayAxisValueFormatter extends ValueFormatter {
+        private String[] mdays = new String[] {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
         @Override
         public String getAxisLabel(float value, AxisBase axis) {
             // Convert the float value to the corresponding day label
-            return "Day " + ((int) value);
+            return mdays[(int) value % mdays.length];
         }
     }
 
-    private void getBarEntries(Date[] days) {
-        barEntriesArrayList = new ArrayList<>();
-        for (int i = 1; i <= days.length; i++) {
-            barEntriesArrayList.add(new BarEntry((float) i, i));
-        }
-    }
-    private TextView createTextView(String text) {
-        TextView textView = new TextView(this);
-        textView.setLayoutParams(new TableRow.LayoutParams(
-                TableRow.LayoutParams.WRAP_CONTENT,
-                TableRow.LayoutParams.WRAP_CONTENT, 1f));
-        textView.setText(text);
-        textView.setGravity(Gravity.CENTER);
-        return textView;
-    }
+    private int[] countStaffs(LocalDate d) {
+        int total, intime;
+        total = intime = 0;
 
+        for (Employee x : me.getMyStaffs()) {
+            if (x.getAttendances().containsKey(d)) {
+                total++;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (x.getAttendances().get(d).isBefore(timeCheck)) {
+                        intime++;
+                    }
+                }
+            }
+        }
+        return new int[] {total, intime};
+    }
 }

@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.attendanceapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +27,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private Button btnResetPW;
     private EditText etEmail;
     private ProgressBar progressBar;
+    Toolbar toolbar;
+
 
     private final static String TAG = "ForgotPasswordActivity";
 
@@ -37,6 +41,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         btnResetPW = findViewById(R.id.btnResetPassword);
         etEmail = findViewById(R.id.etEmail);
         progressBar = findViewById(R.id.progressBar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btnResetPW.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -32,7 +32,6 @@ public class HomeFragment extends Fragment {
         update = new HomeFragmentUI(getContext(), view);
         update.execute();
 
-
         ft_schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,5 +54,11 @@ public class HomeFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        update.cancel(true);
     }
 }
