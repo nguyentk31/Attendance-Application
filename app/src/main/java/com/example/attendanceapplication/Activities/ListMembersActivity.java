@@ -102,7 +102,6 @@ public class ListMembersActivity extends AppCompatActivity {
         final EditText etcName, etcPhone;
         final TextView tvcID, tvcMail, tvcBirthday;
         final RadioGroup rdoGroGender, rdoGroStatus;
-        final Spinner spnTagID;
         final Button btnCancel, btnUpdate;
 
         etcName = dialogView.findViewById(R.id.etcName);

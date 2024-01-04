@@ -95,18 +95,21 @@ public class ScheduleActivity extends AppCompatActivity {
                     @NonNull CalendarDay date,
                     boolean selected
             ) {
-                HashMap<LocalDate, LocalTime> attendances = me.getMyProfile().getAttendances();
                 LocalDate selectedDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDay());
-                if (attendances.containsKey(selectedDate)) {
-                    tvNote.setText("Check in at: " + attendances.get(selectedDate));
-                }
-
-                for (Event x : me.getEvents()) {
-                    if (x.getDate().equals(selectedDate)) {
-                        tvNote.setText(x.getType().name() + " from " + x.getFrom() + "\n" + x.getNote());
+                tvNote.setText("");
+                if (me.getMyProfile().getAttendances() != null) {
+                    HashMap<LocalDate, LocalTime> attendances = me.getMyProfile().getAttendances();
+                    if (attendances.containsKey(selectedDate)) {
+                        tvNote.setText("Check in at: " + attendances.get(selectedDate));
                     }
                 }
-
+                if (me.getEvents() != null) {
+                    for (Event x : me.getEvents()) {
+                        if (x.getDate().equals(selectedDate)) {
+                            tvNote.setText(x.getType().name() + " from " + x.getFrom() + "\n" + x.getNote());
+                        }
+                    }
+                }
                 if (tvNote.getText().toString().trim().equals("")) {
                     tvNote.setText("Nothing");
                 }

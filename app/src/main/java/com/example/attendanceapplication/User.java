@@ -232,12 +232,10 @@ public class User {
         if (materialCalendarView != null) {
             calendarView = materialCalendarView;
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && myProfile.getAttendances() != null) {
-            ArrayList<CalendarDay> ontimeDay = new ArrayList<>();
-            ArrayList<CalendarDay> lateDay = new ArrayList<>();
-            ArrayList<CalendarDay> meeting = new ArrayList<>();
-            ArrayList<CalendarDay> holiday = new ArrayList<>();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             if (myProfile.getAttendances() != null) {
+                ArrayList<CalendarDay> ontimeDay = new ArrayList<>();
+                ArrayList<CalendarDay> lateDay = new ArrayList<>();
                 for (LocalDate x : myProfile.getAttendances().keySet()) {
                     CalendarDay i = new CalendarDay(x.getYear(), x.getMonthValue() - 1, x.getDayOfMonth());
                     if (myProfile.getAttendances().get(x).isAfter(LocalTime.of(7,30))) {
@@ -246,8 +244,14 @@ public class User {
                         ontimeDay.add(i);
                     }
                 }
+                EventDecorator eventDecorator1 = new EventDecorator(R.drawable.circle_blue, context, ontimeDay);
+                EventDecorator eventDecorator2 = new EventDecorator(R.drawable.circle_red, context, lateDay);
+                calendarView.addDecorator(eventDecorator1);
+                calendarView.addDecorator(eventDecorator2);
             }
             if (events != null) {
+                ArrayList<CalendarDay> meeting = new ArrayList<>();
+                ArrayList<CalendarDay> holiday = new ArrayList<>();
                 for (Event x : events) {
                     LocalDate y = x.getDate();
                     CalendarDay i = new CalendarDay(y.getYear(), y.getMonthValue() - 1, y.getDayOfMonth());
@@ -257,15 +261,11 @@ public class User {
                         holiday.add(i);
                     }
                 }
+                EventDecorator eventDecorator3 = new EventDecorator(R.drawable.circle_yellow, context, meeting);
+                EventDecorator eventDecorator4 = new EventDecorator(R.drawable.circle_pink, context, holiday);
+                calendarView.addDecorator(eventDecorator3);
+                calendarView.addDecorator(eventDecorator4);
             }
-            EventDecorator eventDecorator1 = new EventDecorator(R.drawable.circle_blue, context, ontimeDay);
-            EventDecorator eventDecorator2 = new EventDecorator(R.drawable.circle_red, context, lateDay);
-            EventDecorator eventDecorator3 = new EventDecorator(R.drawable.circle_yellow, context, meeting);
-            EventDecorator eventDecorator4 = new EventDecorator(R.drawable.circle_pink, context, holiday);
-            calendarView.addDecorator(eventDecorator1);
-            calendarView.addDecorator(eventDecorator2);
-            calendarView.addDecorator(eventDecorator3);
-            calendarView.addDecorator(eventDecorator4);
         }
     }
 

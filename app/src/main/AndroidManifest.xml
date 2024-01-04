@@ -47,6 +47,10 @@
             android:exported="false"
             android:label="Forgot Password"/>
         <activity
+            android:name=".Activities.UpdateProfileActivity"
+            android:exported="false"
+            android:label="Update Profile"/>
+        <activity
             android:name=".Activities.SecondActivity"
             android:exported="false" />
         <activity
