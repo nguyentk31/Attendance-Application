@@ -5,12 +5,12 @@ import android.annotation.SuppressLint;
 import java.time.LocalDate;
 
 public class Event {
-    public enum EventType {
+    public enum Type {
         meeting,
         holiday
     }
     private LocalDate date;
-    private EventType event;
+    private Type type;
     private String note;
     private String from;
     private String status;
@@ -26,12 +26,12 @@ public class Event {
         this.date = LocalDate.parse(date);
     }
 
-    public EventType getEvent() {
-        return event;
+    public Type getType() {
+        return type;
     }
 
-    public void setEvent(String event) {
-        this.event = EventType.valueOf(event);
+    public void setType(String type) {
+        this.type = Type.valueOf(type);
     }
 
     public String getNote() {

@@ -75,7 +75,6 @@ public class DashboardActivity extends AppCompatActivity {
                     LocalDate selectedDate = LocalDate.of(date.getYear(), date.getMonth()+1, date.getDay());
                     showDayDetail(selectedDate);
                 }
-                widget.setDateSelected(date, false);
             }
         });
 

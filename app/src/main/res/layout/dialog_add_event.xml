@@ -1,7 +1,7 @@
 <!-- res/layout/custom_dialog.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="wrap_content"
+android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:orientation="vertical">
 
@@ -17,7 +17,7 @@ android:orientation="vertical">
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
@@ -26,7 +26,7 @@ android:orientation="vertical">
         app:cardCornerRadius="20dp">
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -49,34 +49,40 @@ android:orientation="vertical">
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="Event:"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <Spinner
                         android:id="@+id/spnEvent"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"/>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="Day:"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvDay"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:textSize="16sp"
                         android:padding="8dp"/>
 
                 </LinearLayout>
@@ -87,11 +93,12 @@ android:orientation="vertical">
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="NOTE:"
-                        android:textStyle="bold"
-                        android:gravity="center"/>
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/etNote"
@@ -101,7 +108,8 @@ android:orientation="vertical">
                         android:gravity="top"
                         android:inputType="text|textMultiLine"
                         android:padding="8sp"
-                        android:text="" />
+                        android:text=""
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -116,7 +124,7 @@ android:orientation="vertical">
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="center"
         android:layout_margin="8dp"
         android:text="Add"
         android:textSize="12sp" />

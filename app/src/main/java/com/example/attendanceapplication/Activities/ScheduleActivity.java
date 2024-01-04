@@ -103,15 +103,13 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 for (Event x : me.getEvents()) {
                     if (x.getDate().equals(selectedDate)) {
-                        tvNote.setText(x.getEvent().name() + " from " + x.getFrom() + "\n" + x.getNote());
+                        tvNote.setText(x.getType().name() + " from " + x.getFrom() + "\n" + x.getNote());
                     }
                 }
 
                 if (tvNote.getText().toString().trim().equals("")) {
                     tvNote.setText("Nothing");
                 }
-
-                widget.setDateSelected(date, false);
             }
         });
         calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
@@ -185,13 +183,13 @@ public class ScheduleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String myFormat = "yyyy-MM-dd";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
-                String event = spnEvent.getSelectedItem().toString();
+                String type = spnEvent.getSelectedItem().toString();
                 String day = sdf.format(calendar.getTime());
                 String note = etNote.getText().toString().trim();
 
                 Map<String, Object> createRequest = new HashMap<>();
                 createRequest.put("date", day);
-                createRequest.put("event", event);
+                createRequest.put("type", type);
                 createRequest.put("note", note);
                 createRequest.put("from", me.getMyProfile().getAuthid());
                 createRequest.put("status", "requesting");

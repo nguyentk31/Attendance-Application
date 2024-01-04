@@ -1,6 +1,8 @@
 package com.example.attendanceapplication.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +47,7 @@ public class DetailDayAdapter extends ArrayAdapter<Employee> {
         TextView tvID = convertView.findViewById(R.id.tvID);
         TextView tvCheckin = convertView.findViewById(R.id.tvCheckin);
         ImageView ivAvatar = convertView.findViewById(R.id.imageViewAvatar);
+        ImageView ivCall = convertView.findViewById(R.id.ivCall);
         LinearLayout llParent = convertView.findViewById(R.id.llParent);
 
         tvName.setText(employee.getName());
@@ -61,6 +64,15 @@ public class DetailDayAdapter extends ArrayAdapter<Employee> {
 
         LocalTime x = employee.getAttendances().get(selectedDate);
         tvCheckin.setText(x.toString());
+
+        ivCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + employee.getPhone()));
+                context.startActivity(callIntent);
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if(x.isAfter(LocalTime.of(7,30))){

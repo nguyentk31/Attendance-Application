@@ -20,12 +20,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         sendNotification(message.getNotification().getTitle(), message.getNotification().getBody());
     }
 
-    @Override
-    public void onNewToken(@NonNull String token) {
-        super.onNewToken(token);
-        User.updateFCMtoken(token);
-    }
-
     private void sendNotification(String title, String messageBody) {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 

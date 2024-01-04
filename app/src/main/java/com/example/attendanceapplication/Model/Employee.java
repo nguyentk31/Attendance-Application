@@ -34,7 +34,6 @@ public class Employee {
     private Position position;
     private String tagid;
     private String phone;
-    private String fcmtoken;
     private Status status;
     private String avatarURL;
     private HashMap<LocalDate, LocalTime> attendances;
@@ -126,14 +125,6 @@ public class Employee {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getFcmtoken() {
-        return fcmtoken;
-    }
-
-    public void setFcmtoken(String fcmtoken) {
-        this.fcmtoken = fcmtoken;
     }
 
     public Status getStatus() {

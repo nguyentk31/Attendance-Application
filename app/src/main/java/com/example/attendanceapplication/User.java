@@ -67,7 +67,14 @@ public class User {
         myDBRef = FirebaseDatabase.getInstance(dbURL).getReference();
         authID = FirebaseAuth.getInstance().getUid();
 
-        FirebaseMessaging.getInstance().getToken();
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()) {
+                    updateFCMtoken(task.getResult());
+                }
+            }
+        });
 
         myDBRef.child("users/" + authID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -178,7 +185,7 @@ public class User {
 
     public static void ResetInstance() {
         if(instance != null) {
-            updateFCMtoken("none");
+            updateFCMtoken(null);
             FirebaseMessaging.getInstance().deleteToken();
             instance = null;
         }
@@ -230,19 +237,21 @@ public class User {
             ArrayList<CalendarDay> lateDay = new ArrayList<>();
             ArrayList<CalendarDay> meeting = new ArrayList<>();
             ArrayList<CalendarDay> holiday = new ArrayList<>();
-            for (LocalDate x : myProfile.getAttendances().keySet()) {
-                CalendarDay i = new CalendarDay(x.getYear(), x.getMonthValue() - 1, x.getDayOfMonth());
-                if (myProfile.getAttendances().get(x).isAfter(LocalTime.of(7,30))) {
-                    lateDay.add(i);
-                } else {
-                    ontimeDay.add(i);
+            if (myProfile.getAttendances() != null) {
+                for (LocalDate x : myProfile.getAttendances().keySet()) {
+                    CalendarDay i = new CalendarDay(x.getYear(), x.getMonthValue() - 1, x.getDayOfMonth());
+                    if (myProfile.getAttendances().get(x).isAfter(LocalTime.of(7,30))) {
+                        lateDay.add(i);
+                    } else {
+                        ontimeDay.add(i);
+                    }
                 }
             }
             if (events != null) {
                 for (Event x : events) {
                     LocalDate y = x.getDate();
                     CalendarDay i = new CalendarDay(y.getYear(), y.getMonthValue() - 1, y.getDayOfMonth());
-                    if (x.getEvent().equals(Event.EventType.meeting)) {
+                    if (x.getType().equals(Event.Type.meeting)) {
                         meeting.add(i);
                     } else {
                         holiday.add(i);
@@ -312,8 +321,8 @@ public class User {
 
     public static void updateFCMtoken(String token) {
         Map<String, Object> fcmObject = new HashMap<>();
-        fcmObject.put("fcmtoken", token);
-        myDBRef.child("users/"+authID).updateChildren(fcmObject);
+        fcmObject.put(authID, token);
+        myDBRef.child("fcmtokens").updateChildren(fcmObject);
     }
 
     public ArrayList<Event> getEvents() {
