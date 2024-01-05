@@ -97,7 +97,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         ArrayList<Employee> list = new ArrayList<>();
         for (Employee x : me.getMyStaffs()) {
-            if (x.getAttendances().containsKey(selectedDate)) {
+            if (x.getAttendances() != null && x.getAttendances().containsKey(selectedDate)) {
                 list.add(x);
             }
         }
@@ -196,7 +196,7 @@ public class DashboardActivity extends AppCompatActivity {
         total = intime = 0;
 
         for (Employee x : me.getMyStaffs()) {
-            if (x.getAttendances().containsKey(d)) {
+            if (x.getAttendances() != null && x.getAttendances().containsKey(d)) {
                 total++;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (x.getAttendances().get(d).isBefore(timeCheck)) {
